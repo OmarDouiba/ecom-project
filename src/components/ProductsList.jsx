@@ -5,7 +5,6 @@ function ProductsList() {
   const api_url = 'https://fakestoreapi.com/products';
   const [products, SetProducts] = useState([]);
   const [categories, setCategories] = useState([]);
-  const [categoriesProduct, SetCategoriesProduct] = useState([]);
 
   const getProducts = () => {
     fetch(api_url)
@@ -20,9 +19,10 @@ function ProductsList() {
   };
 
   const getCategoriesProduct = (catName) => {
-    fetch(`${api_url}/categories/${catName}`)
+    console.log(catName);
+    fetch(`${api_url}/category/${catName}`)
       .then((resp) => resp.json())
-      .then((data) => SetCategoriesProduct(data));
+      .then((data) => SetProducts(data));
   };
 
   useEffect(() => {
@@ -36,11 +36,16 @@ function ProductsList() {
       <h1 className="text-center p-3">Our Product</h1>
       <div className="container">
         <div className="p-4">
+          <button className="btn btn-info" onClick={() => getProducts()}>
+            All
+          </button>
           {categories.map((cat) => {
             return (
               <button
                 key={cat}
-                onClick={() => getCategoriesProduct(cat)}
+                onClick={() => {
+                  getCategoriesProduct(cat);
+                }}
                 className="btn btn-info"
               >
                 {cat}
